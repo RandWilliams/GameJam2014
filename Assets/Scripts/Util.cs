@@ -15,4 +15,12 @@ public class Util {
 		float z = Random.value * max;
 		return new Vector3(x, y, z);
 	}
+
+	public static Vector4 RandomVector4(float max) {
+		float x = Random.value * max;
+		float y = Random.value * max;
+		float z = Random.value * max;
+		float w = Random.value * max;
+		return new Vector4(x, y, z, w);
+	}
 }
