@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,6 +9,7 @@ public class NodeManager : MonoBehaviour {
 	private List<Node> OldNodes = null;
 	public int NodeCount = 50;
 	public GameObject GameNode;
+	public GameObject GameEdge;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +17,7 @@ public class NodeManager : MonoBehaviour {
 			Instantiate(GameNode, Util.RandomVector2(2), Quaternion.identity );
 		}
 
-		RelationMatrix = new RelationMatrix(NodeCount);
+		RelationMatrix = new RelationMatrix(GameObject.FindObjectsOfType<Node>());
 		Nodes = new List<Node>(GameObject.FindObjectsOfType<Node>());
 		OldNodes = new List<Node>(GameObject.FindObjectsOfType<Node>());
 		Nodes[0].friction = 0;
@@ -41,6 +42,26 @@ public class NodeManager : MonoBehaviour {
 		//OldNodes.Clear();
 		for(int i = 0; i < Nodes.Count; ++i)
 			OldNodes[i] = Nodes[i];
+
+//		Edges = Edges ?? new List<Edge>();
+//		for(int i = Edges.Count - 1; i >= 0; --i)
+//			if(Edges[i] != null)
+//				GameObject.Destroy(Edges[i].gameObject);
+
+//		Edges.Clear();
+//		for (int i = 0; i < Nodes.Count; ++i)
+//			for(int j = i+1; j < Nodes.Count; ++j)
+//			{
+//				if(RelationMatrix[i,j]){
+//					GameObject obj = (GameObject)GameObject.Instantiate(GameEdge);
+//					Edge edge = obj.GetComponent<Edge>();
+//					if(edge != null) {
+////						Edges.Add(edge);
+//						edge.FirstParent = Nodes[i];
+//						edge.SecondParent = Nodes[j];
+//					}
+//				}
+//			}
 	}
 }
 
