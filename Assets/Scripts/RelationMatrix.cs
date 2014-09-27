@@ -16,8 +16,6 @@ public class RelationMatrix {
 			Relations.Add(new List<bool>(new bool[i]));
 		}
 		size = n;
-		for(int i = 0; i < n-1; ++i)
-			Relations[0][i] = true;
 
 		List<int> indicies = new List<int>();
 		for(int i = 1; i < n - 1; ++i)
@@ -51,14 +49,10 @@ public class RelationMatrix {
 		}
 		set { 
 			if(i > j) {
-				if( i > size || i < 0 || j > size || j < 0)
-					throw new IndexOutOfRangeException();
-				Relations[j][i] = value;
+				Relations[j][i-j-1] = value;
 			}
-			else {
-				if( i > size || i < 0 || j > size || j < 0)
-					throw new IndexOutOfRangeException();
-				Relations[i][j] = value;
+			else if (i < j) {
+				Relations[i][j-i-1] = value;
 			}
 		}
 	}
