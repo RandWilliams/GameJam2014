@@ -35,11 +35,12 @@ public class Node : MonoBehaviour {
 	}
 
 	const float K = .01f;	//Spring constant
+	const float length = 3.0f;
 	public Vector3 AttractiveForce (Node q2) {
 		Vector3 position = gameObject.transform.position;
 		Vector3 otherPos = q2.gameObject.transform.position;
 
 		Vector3 toNode = otherPos - position;
-		return K * toNode / 2f;
+		return K * (toNode - toNode.normalized * length) / 2f;
 	}
 }
