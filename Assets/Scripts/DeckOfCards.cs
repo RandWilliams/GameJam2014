@@ -117,23 +117,38 @@ public class DeckOfCards : MonoBehaviour
 			{
 			case ("Infect"):
 				Debug.Log ("Infection!");
-								transform.Find("Main Camera")
-									.GetComponent<CameraControl>().focusNode
-										.GetComponent<Infectable>().infected = true;
+//								transform.Find("Main Camera")
+//									.GetComponent<CameraControl>().focusNode
+//										.GetComponent<Infectable>().infected = true;
 				break;
 			case ("Sever"):
 				Debug.Log ("Isolated!");
 				break;
 			case ("Condom"):
-				Debug.Log ("Condom distributed!");
+//				Debug.Log ("Condom distributed!");
+//				transform.Find("Main Camera")
+//					.GetComponent<CameraControl>().focusNode
+//						.GetComponent<Infectable>().chanceToBeInfected *= 0.1f;
+//				transform.Find("Main Camera")
+//					.GetComponent<CameraControl>().focusNode
+//						.GetComponent<Infectable>().chanceToInfect *= 0.4f;
 				break;
 			case ("PrEP"):
+//				transform.Find("Main Camera")
+//					.GetComponent<CameraControl>().focusNode
+//						.GetComponent<Infectable>().chanceToBeInfected *= 0.1f;
 				Debug.Log ("PrEP administered!");
 				break;
 			case ("ART"):
+//				transform.Find("Main Camera")
+//					.GetComponent<CameraControl>().focusNode
+//						.GetComponent<Infectable>().chanceToInfect *= 0.4f;
 				Debug.Log ("ART administered!");
 				break;
 			case ("Testing"):
+//				transform.Find("Main Camera")
+//					.GetComponent<CameraControl>().focusNode
+//						.GetComponent<Infectable>().tested = true;
 				Debug.Log ("Tested!");
 				break;
 			default:
