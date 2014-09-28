@@ -12,6 +12,7 @@ public class CameraControl : MonoBehaviour {
 	public Vector3 center = new Vector3 (0f, 0f);
 
 	public Edge focusEdge = null;
+	public Node focusNode = null;
 
 	public float restSize = 100f;
 	public Vector3 restPosition = new Vector3(0f, 0f, -10f);
@@ -24,6 +25,8 @@ public class CameraControl : MonoBehaviour {
 	// privatize 
 	private Quaternion camRotation = new Quaternion();
 	public Vector3 tgtRotationAngles = new Vector3();
+
+
 
 	private 
 	// Use this for initialization
@@ -44,28 +47,44 @@ public class CameraControl : MonoBehaviour {
 
 			Vector3 mousePosition0 = Input.mousePosition;
 			mousePosition0.z = -10f;
-			Vector3 mousePosition1 = camera.ScreenToWorldPoint(mousePosition0);
+			// bounds check regarding GUI as well..
+			// bc cant capture / cancel mouse clicks, click button can potentially
+			// hit an edge, etc.
+			if ((mousePosition0.y < Screen.height - 50) && 
+			    (mousePosition0.y > 50)) {
+				Vector3 mousePosition1 = camera.ScreenToWorldPoint(mousePosition0);
 
 			
-			Ray ray = new Ray(mousePosition1, new Vector3(0f,0f,10f));
-			Debug.Log (camera.ScreenToWorldPoint(mousePosition1));
-			RaycastHit[] hits = Physics.RaycastAll(ray);
+				Ray ray = new Ray(mousePosition1, new Vector3(0f,0f,10f));
+				Debug.Log (mousePosition0);
+				RaycastHit[] hits = Physics.RaycastAll(ray);
 			
-			if(hits.Length > 0 && hits[0].collider != null){
-				//foreach(Collider2D c in col)
-				//{
-				RaycastHit hit = hits[0];
-				Debug.Log("Collided with: " + hit.collider.gameObject.name);
-				Edge e = hit.collider.gameObject.GetComponent(typeof(Edge)) as Edge;
-				if (e != null) { 
-					focusEdge = e;
-					mode = Mode.focusEdge;
-				} 
-				//}
-			} else
-			{
-				mode = Mode.global;
+				if(hits.Length > 0){
+					bool abort = false;
+					foreach ( RaycastHit h in hits) {
+						Node n = h.collider.gameObject.GetComponent(typeof(Node)) as Node;
+						if (n != null) { 
+							focusNode = n;
+							abort = true;
+						} 
+						if (abort) break;
+					}
+
+					if (!abort) {
+						RaycastHit hit = hits[0];
+						Debug.Log("Collided with: " + hit.collider.gameObject.name);
+						Edge e = hit.collider.gameObject.GetComponent(typeof(Edge)) as Edge;
+						if (e != null) { 
+							focusEdge = e;
+							mode = Mode.focusEdge;
+						} 
+					}
+				}
 			}
+			//else
+			//{
+			//	mode = Mode.global;
+			//}
 
 
 			//RaycastHit2D hit = Physics2D.Raycast(camera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
