@@ -26,9 +26,9 @@ public class GUI_LinkView : MonoBehaviour {
 		GUI.Box (new Rect (Screen.width - 100,Screen.height - 50,100,50), "Bottom-right");
 
 		// GUI.skin = InfectButtonSkin;
-		if (GUI.Button (new Rect ((Screen.width / 2f) - 50, 5, 100, 100), InfectButtonImage, GUIStyle.none)) {
-			// do Infect
-		}
+		//if (GUI.Button (new Rect ((Screen.width / 2f) - 50, 5, 100, 100), InfectButtonImage, GUIStyle.none)) {
+		//	// do Infect
+		//}
 
 		if (GUI.Button (new Rect (0, Screen.height - 50, 100, 50), "Zoom Out")) {
 			c.mode = CameraControl.Mode.global;

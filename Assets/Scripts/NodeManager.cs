@@ -20,7 +20,7 @@ public class NodeManager : MonoBehaviour {
 	void Start () {
 		for(int i = 0; i < NodeCount; ++i){
 			Vector2 limit = new Vector2( (Random.value - 0.5f) * Scale * Aspect * Adjust, (Random.value - 0.5f) * Scale * Adjust);
-			Instantiate(GameNode, limit, Quaternion.identity );
+			Instantiate(GameNode, limit, Quaternion.FromToRotation(Vector3.up,Vector3.forward) );
 		}
 
 		RelationMatrix = new RelationMatrix(GameObject.FindObjectsOfType<Node>());
