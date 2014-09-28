@@ -50,7 +50,7 @@ public class RelationMatrix {
 			if(i > j) {
 				return Relations[j][i-j-1] != null;
 			}
-			else if (i == j) {
+			else if (i == j) { 
 				return true;
 			}
 			else {
