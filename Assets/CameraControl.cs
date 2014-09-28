@@ -42,7 +42,6 @@ public class CameraControl : MonoBehaviour {
 
 		if (Input.GetButtonDown("Fire1")) {
 
-
 			Vector3 mousePosition0 = Input.mousePosition;
 			mousePosition0.z = -10f;
 			Vector3 mousePosition1 = camera.ScreenToWorldPoint(mousePosition0);
@@ -58,8 +57,14 @@ public class CameraControl : MonoBehaviour {
 				RaycastHit hit = hits[0];
 				Debug.Log("Collided with: " + hit.collider.gameObject.name);
 				Edge e = hit.collider.gameObject.GetComponent(typeof(Edge)) as Edge;
-				if (e != null) focusEdge = e;
+				if (e != null) { 
+					focusEdge = e;
+					mode = Mode.focusEdge;
+				} 
 				//}
+			} else
+			{
+				mode = Mode.global;
 			}
 
 
@@ -76,11 +81,31 @@ public class CameraControl : MonoBehaviour {
 
 	void UpdateGlobal () {
 		if (mode != lastMode) { 
-			camera.orthographicSize = restSize;
-			camera.transform.position = restPosition;
-			camera.transform.rotation = restRotation;
+			//camera.orthographicSize = restSize;
+			//camera.transform.position = restPosition;
+			//camera.transform.rotation = restRotation;
 			lastMode = mode;
 		}
+
+		
+			camRotation = camera.transform.rotation;
+			//float tgtRotZ = focusEdge.transform.rotation.eulerAngles.z -90f ;
+			//if (tgtRotZ < 0) tgtRotZ += 360.0f;
+			tgtRotationAngles = restRotation.eulerAngles;
+			camRotation.eulerAngles = Vector3.Lerp(camRotation.eulerAngles, tgtRotationAngles, Time.deltaTime * damper);
+			camera.transform.rotation = camRotation;
+			
+			Vector3 camPosition = camera.transform.position;
+			Vector3 tgtPosition = restPosition;
+			camPosition.z = camera.transform.position.z;
+			tgtPosition.z = camPosition.z;
+			camPosition = Vector3.Lerp(camPosition, tgtPosition, Time.deltaTime * damper);
+			camera.transform.position = camPosition;
+			
+			float camSize = camera.orthographicSize;
+			float tgtSize = restSize;
+			camSize = Mathf.Lerp(camSize, tgtSize, Time.deltaTime * damper);
+			camera.orthographicSize = camSize;
 	}
 
 	void UpdateEdge () { 
@@ -94,8 +119,10 @@ public class CameraControl : MonoBehaviour {
 		if (focusEdge != null) {
 
 			camRotation = camera.transform.rotation;
+			float camRotZ = camRotation.eulerAngles.z;
 			float tgtRotZ = focusEdge.transform.rotation.eulerAngles.z -90f ;
 			if (tgtRotZ < 0) tgtRotZ += 360.0f;
+
 			tgtRotationAngles = new Vector3(camRotation.eulerAngles.x, camRotation.eulerAngles.y, tgtRotZ );
 			camRotation.eulerAngles = Vector3.Lerp(camRotation.eulerAngles, tgtRotationAngles, Time.deltaTime * damper);
 			camera.transform.rotation = camRotation;
